@@ -33,6 +33,7 @@ def tel_filter(tel_num, area_code):
         tel_num = str(tel_num)
     if not isinstance(area_code, unicode):
         area_code = str(area_code)
+    tel_num = re.sub('\D', '', tel_num)  # 只保留数字
     tel_num = re.sub('\s', '', tel_num)  # 去掉空格
     tel_num = tel_num.replace('(', '')
     tel_num = tel_num.replace(')', '')
@@ -50,6 +51,8 @@ def tel_filter(tel_num, area_code):
                         tel_num = '0' + tel_num
                     else:  # 可能存在电话号码刚好为区号
                         tel_num = area_code + tel_num
+                elif len(tel_num) == 11 and re.match("^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$", tel_num):  # 手机号
+                    pass
                 else:  # 没有带上区号
                     tel_num = area_code + tel_num
         else:
